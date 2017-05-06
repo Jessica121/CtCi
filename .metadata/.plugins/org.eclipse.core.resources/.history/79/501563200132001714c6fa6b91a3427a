@@ -30,6 +30,11 @@ public static boolean isPermu(String s1, String s2){
 }
 
 public static boolean Permu(String s1, String s2){
+	String test = "shit ";
+	char[] c = test.toCharArray();
+	System.out.println(c);
+	
+	/*
 	int len1 = s1.length();
 	int len2 = s2.length();
 	if (len1!=len2) return false;
@@ -53,12 +58,6 @@ public static boolean Permu(String s1, String s2){
 }
 
 public static void main(String args[]){
-	String test = "shit ";
-	char[] c = test.toCharArray();
-	System.out.print(c);
-	
-	System.out.println("?");
-	/*
 	String s1 = "cba";
 	String s2 = "abc";
 	if(Permu(s1,s2)){

@@ -55,9 +55,8 @@ public static boolean Permu(String s1, String s2){
 public static void main(String args[]){
 	String test = "shit ";
 	char[] c = test.toCharArray();
-	System.out.print(c);
+	System.out.println(c);
 	
-	System.out.println("?");
 	/*
 	String s1 = "cba";
 	String s2 = "abc";
