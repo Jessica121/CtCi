@@ -104,23 +104,6 @@ public static boolean isPermuOfPalindrome(String input){
 	return hasAtMostOneOdd(input);
 }
 
-public static boolean isPermuOfPalindromeCheckOnFly(String input){
-	//no freq table, check the oddNum on the fly. by +1 -1 when encounting num of char, will 抵消成0偶数，1奇数for EACH char.
-	int[] map = new int[charToInt('z')-charToInt('a')+1];
-	char[] cVer = input.toCharArray();
-	int oddCount = 0;
-	for(char c:cVer){
-		if (charToInt(c) != -1){
-		map[charToInt(c)]++;
-		if ((map[charToInt(c)])%2 == 1)
-			oddCount ++;		//--
-		else
-			oddCount --;		//++ oddCount>=-1
-		}
-	}
-	return oddCount <=1;// 1时iff只有一个char是奇数；aa 是0；aaa=1；abba=0；abbba= 1 2 1 2 1 = 1;aaabbb=2
-}
-
 public static int charToInt(char c){
 	int m = Character.getNumericValue(c);
 	System.out.println(m);
@@ -134,44 +117,25 @@ public static int charToInt(char c){
 	return -1;
 }
 
-public static boolean isPermuPalinBitVer(String input){
-	int bv = creatBitV(input);
-	return (bv == 0)||((bv&(bv-1))==0);
-}
-
-public static int creatBitV(String input){
-	int bV = 0;
+public static boolean isPermuOfPalindromeCheckOnFly(String input){
+	//no freq table, check the oddNum on the fly. by +1 -1 when encounting num of char, will 抵消成0偶数，1奇数for EACH char.
+	int[] map = new int[charToInt('z')-charToInt('a')+1];
 	char[] cVer = input.toCharArray();
-	for(char c: cVer){
-		int i = charToInt(c);
-		if(i != -1)
-		bV = addToBitV(bV,i);
+	int oddCount = 0;
+	for(char c:cVer){
+		if (charToInt(c) != -1){
+		map[charToInt(c)]++;
+		if ((map[charToInt(c)])%2 == 1)
+			oddCount--;
+		else
+			oddCount ++;
+		}
 	}
-	//System.out.println(bV);
-	return bV;
-}
-
-public static int addToBitV(int bV,int i){
-	int adder = 1;		//adder is 1. 0 is always 0.
-	//from a to z 一定要有对应。没有都是0的情况。与array从0开始两码事。
-	System.out.println(adder);
-	adder = adder<<i;
-	System.out.println(i);
-	System.out.println(adder);
-	if((adder & bV) == 0)//never mapped, (adder & bV) use ();
-		bV |= adder;
-	else 
-		bV &= ~adder;
-	System.out.println(bV);
-	return bV;
+	return oddCount<=1;// 1时iff只有一个char是奇数；aa 是0；aaa=1；abba=0；abbba= 1 2 1 2 1 = 1;aaabbb=2
 }
 
 public static void main(String args[]){
-	
-	
-	
-	/* 1.4 好题，三种方法。onthefly, bit manipulation.
-	if(isPermuPalinBitVer("aaaccc"))
+	if(isPermuOfPalindrome("tacocat"))
 		System.out.println("yep");
 	else System.out.println("nop");
 	

@@ -152,9 +152,7 @@ public static int creatBitV(String input){
 }
 
 public static int addToBitV(int bV,int i){
-	int adder = 1;		//adder is 1. 0 is always 0.
-	//from a to z 一定要有对应。没有都是0的情况。与array从0开始两码事。
-	System.out.println(adder);
+	int adder = 0;
 	adder = adder<<i;
 	System.out.println(i);
 	System.out.println(adder);
@@ -167,11 +165,7 @@ public static int addToBitV(int bV,int i){
 }
 
 public static void main(String args[]){
-	
-	
-	
-	/* 1.4 好题，三种方法。onthefly, bit manipulation.
-	if(isPermuPalinBitVer("aaaccc"))
+	if(isPermuPalinBitVer("ac"))
 		System.out.println("yep");
 	else System.out.println("nop");
 	

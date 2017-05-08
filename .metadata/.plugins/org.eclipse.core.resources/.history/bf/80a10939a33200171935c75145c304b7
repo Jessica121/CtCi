@@ -167,10 +167,7 @@ public static int addToBitV(int bV,int i){
 }
 
 public static void main(String args[]){
-	
-	
-	
-	/* 1.4 好题，三种方法。onthefly, bit manipulation.
+	/* 1.4 好题，三种方法。onthefly, bit manipulation
 	if(isPermuPalinBitVer("aaaccc"))
 		System.out.println("yep");
 	else System.out.println("nop");
