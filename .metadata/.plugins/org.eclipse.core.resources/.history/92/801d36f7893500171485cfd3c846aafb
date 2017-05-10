@@ -225,33 +225,18 @@ public static boolean oneEditAwayComb(String s1, String s2){
 	int index1 = 0;
 	int index2 = 0;
 	String shorter = s1.length() < s2.length() ? s1 : s2;
-	//if len is the same, go to the second condition;
+	//System.out.println(shorter);
 	String longer = s1.length() < s2.length() ? s2 : s1;
 	//System.out.println(longer);
-	if (longer.length() - shorter.length() >= 2)
-		return false;		//check the most basic case that doesnt fit at all
+	while(index1<s1.length() && index2 < s2.length())
 	
-	while(index1<s1.length() && index2 < s2.length() ){
-		if(shorter.charAt(index1) != longer.charAt(index2) ){
-			if(flg == 1)		//int == 1 cannot cast to bool type:)
-				return false;
-			flg = 1;
-			if (shorter.length() == longer.length() ){
-				index1++;
-			}//for replace doesnt match; if not replace, ignore it
-		}
-		else//match
-			index1++;
-		index2++;	//whether match or not, it is true anyways:)
-	}
-	return true;
 }
 
 
 public static void main(String args[]){
-	String str1 = "";
-	String str2 = " ";	//好例子也是关键：））
-	if(oneEditAwayComb(str1,str2)){
+	String str1 = "aqqq";
+	String str2 = "addqq";	//好例子也是关键：））
+	if(oneEditAway(str1,str2)){
 		System.out.println("yay");
 	}else{
 		System.out.println("naaah");

@@ -249,8 +249,8 @@ public static boolean oneEditAwayComb(String s1, String s2){
 
 
 public static void main(String args[]){
-	String str1 = "";
-	String str2 = " ";	//好例子也是关键：））
+	String str1 = "aqqqqq";
+	String str2 = "aqqq";	//好例子也是关键：））
 	if(oneEditAwayComb(str1,str2)){
 		System.out.println("yay");
 	}else{
