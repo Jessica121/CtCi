@@ -195,7 +195,7 @@ public static boolean oneRorIAway(String s1, String s2){
 			}
 			flag = 1;
 			idx2++;
-		}else{		//不写else的话不论怎么样都会加！！
+		}else{
 		idx1++;
 		idx2++;}
 	}

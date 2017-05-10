@@ -182,9 +182,7 @@ public static boolean oneEditAway(String s1, String s2){
 public static boolean oneRorIAway(String s1, String s2){
 	//abc, abcd; abc, adbc; abc, addd
 	String shorter = s1.length() < s2.length() ? s1 : s2;
-	System.out.println(shorter);
 	String longer = s1.length() < s2.length() ? s2 : s1;
-	System.out.println(longer);
 	int flag = 0; //or bool, mark when the only one diff is allowed;
 	int idx1 = 0;
 	int idx2 = 0;
@@ -195,9 +193,9 @@ public static boolean oneRorIAway(String s1, String s2){
 			}
 			flag = 1;
 			idx2++;
-		}else{		//不写else的话不论怎么样都会加！！
+		}
 		idx1++;
-		idx2++;}
+		idx2++;
 	}
 	return true;
 
@@ -209,10 +207,10 @@ public static boolean oneReplaceAway(String s1, String s2){
 	boolean flag = false;
 	while(index1< s1.length()){		//String and Array 按位置操作一定要限定位置的范围，不能超过。最最基本。
 		if(s1.charAt(index1) != s2.charAt(index2)){
-			if(flag == true){//if 条件判断对错，双等号最最基本。
+			if(flag == true){
 				return false;
 			}
-			flag = true;	//FLAG在一定条件下改变起它的作用！
+			flag = true;
 		}
 		index1++;//增长的条件写在那一块；
 		index2++;
@@ -221,8 +219,8 @@ public static boolean oneReplaceAway(String s1, String s2){
 
 
 public static void main(String args[]){
-	String str1 = "aqqq";
-	String str2 = "adqqq";
+	String str1 = "abjb";
+	String str2 = "add";
 	if(oneEditAway(str1,str2)){
 		System.out.println("yay");
 	}else{

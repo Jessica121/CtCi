@@ -195,7 +195,7 @@ public static boolean oneRorIAway(String s1, String s2){
 			}
 			flag = 1;
 			idx2++;
-		}else{		//不写else的话不论怎么样都会加！！
+		}else{
 		idx1++;
 		idx2++;}
 	}
@@ -222,7 +222,7 @@ public static boolean oneReplaceAway(String s1, String s2){
 
 public static void main(String args[]){
 	String str1 = "aqqq";
-	String str2 = "adqqq";
+	String str2 = "addqq";
 	if(oneEditAway(str1,str2)){
 		System.out.println("yay");
 	}else{
