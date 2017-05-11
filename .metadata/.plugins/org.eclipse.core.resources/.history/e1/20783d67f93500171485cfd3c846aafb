@@ -255,7 +255,6 @@ public static String compressedString(String s1){
 	while ( i< s1.length()){
 		//abbbbbc
 		if(((i+1) >= s1.length()) || (s1.charAt(i) != s1.charAt(i+1))  ){
-			//这里“(i+1) >= s1.length())”放在或的条件前面先判断，才不会outofbounds:)
 			n = n + "" + s1.charAt(i) + c;
 			c = 1;//C是char的，要清楚，到下一个不同的char的时候要归零！最基本的思想
 		}else{
@@ -277,7 +276,7 @@ public static String compressedString(String s1){
 
 
 public static void main(String args[]){
-	System.out.println(compressedString("abc"));
+	System.out.println(compressedString("abbbbbccc"));
 	
 	/*
 	String str1 = "";

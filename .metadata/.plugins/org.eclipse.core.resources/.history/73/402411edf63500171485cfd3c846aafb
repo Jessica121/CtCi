@@ -251,33 +251,22 @@ public static boolean oneEditAwayComb(String s1, String s2){
 public static String compressedString(String s1){
 	int c = 1;	//count for each chars
 	int i = 0;	//index for each char
-	String n = "" ;	//must initilize, or outputs nothing
+	String new1 = "" ;	//must initilize, or outputs nothing
 	while ( i< s1.length()){
 		//abbbbbc
-		if(((i+1) >= s1.length()) || (s1.charAt(i) != s1.charAt(i+1))  ){
-			//这里“(i+1) >= s1.length())”放在或的条件前面先判断，才不会outofbounds:)
-			n = n + "" + s1.charAt(i) + c;
-			c = 1;//C是char的，要清楚，到下一个不同的char的时候要归零！最基本的思想
+		if((s1.charAt(i) != s1.charAt(i+1)) || (i+1 > s1.length()) ){
+			new1 = new1 + "" + s1.charAt(i) + c;
 		}else{
 			c++;
 		}
 		i++;
 	}
-//	String n = "";
-//	int c = 0;
-//	for(int i = 0; i<s1.length();i++){
-//		c++;
-//		if(i+1>=s1.length() || s1.charAt(i)!= s1.charAt(i+1)){
-//			n += ""+ s1.charAt(i) + n;
-//			c = 0;
-//		}
-//	}
-	return s1.length() < n.length() ? s1 : n;
+	return s1.length() < new1.length() ? s1 : new1;
 }
 
 
 public static void main(String args[]){
-	System.out.println(compressedString("abc"));
+	System.out.println(compressedString("abbbbbc"));
 	
 	/*
 	String str1 = "";
