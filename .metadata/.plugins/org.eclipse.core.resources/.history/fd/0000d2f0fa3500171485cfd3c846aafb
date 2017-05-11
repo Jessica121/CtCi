@@ -278,7 +278,7 @@ public static String compressedStringBaaadSuperSlow(String s1){
 
 public static String compressStr(String s){
 	StringBuilder n = new StringBuilder();
-	//System.out.println(n);
+	System.out.println(n);
 	int c = 1 ; 
 	int i = 0;
 	while (i< s.length()){

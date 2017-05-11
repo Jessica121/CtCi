@@ -248,7 +248,7 @@ public static boolean oneEditAwayComb(String s1, String s2){
 	return true;
 }
 
-public static String compressedStringBaaadSuperSlow(String s1){
+public static String compressedString(String s1){
 	int c = 1;	//count for each chars
 	int i = 0;	//index for each char
 	String n = "" ;	//must initilize, or outputs nothing
@@ -276,27 +276,8 @@ public static String compressedStringBaaadSuperSlow(String s1){
 }
 
 
-public static String compressStr(String s){
-	StringBuilder n = new StringBuilder();
-	//System.out.println(n);
-	int c = 1 ; 
-	int i = 0;
-	while (i< s.length()){
-		//abbbbc
-		if (i+1 == s.length() || s.charAt(i)!= s.charAt(i+1)){
-			n.append(s.charAt(i));
-			n.append(c);
-		}else{
-			c++;
-		}
-		i++;
-	}
-	return s.length() < n.length() ? s : n.toString() ;
-}
-
-
 public static void main(String args[]){
-	System.out.println(compressStr("abbbbccc"));
+	System.out.println(compressedString("abc"));
 	
 	/*
 	String str1 = "";
