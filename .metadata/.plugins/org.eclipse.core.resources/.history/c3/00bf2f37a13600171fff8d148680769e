@@ -305,7 +305,7 @@ public static int clen(String s){
 		i++;
 	}
 	
-	return c;// two ints, know what it is
+	return c;
 }
 
 public static String compressStr(String s){

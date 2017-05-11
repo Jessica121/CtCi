@@ -277,7 +277,6 @@ public static String compressedStringBaaadSuperSlow(String s1){
 
 public static String compressCheckonthefly(String s){
 	int clen = clen(s);
-	System.out.println(clen);
 	if (s.length() <= clen ) return s;
 	StringBuilder n = new StringBuilder(clen);	//StringBuilder的type不是String:)
 	int i = 0;
@@ -298,14 +297,14 @@ public static int clen(String s){
 	
 	while (i< s.length()){
 		if ( i+1>=s.length() || s.charAt(i) != s.charAt(i+1)){
-		c += 1 + String.valueOf(c).length();
+		i += 1 + String.valueOf(c).length();
 		//i<len的条件，又有i+1，check 先
 		c = 1;
 	} else c++;
 		i++;
 	}
 	
-	return c;// two ints, know what it is
+	return i;
 }
 
 public static String compressStr(String s){
