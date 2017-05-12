@@ -345,7 +345,6 @@ public static boolean rotateM(int[][] m){
 			m[n-1-i][l] = m[n-1-l][n-1-i];//b->l
 			//對應順序，可能從上一次就是反著的，就要翻著對應。
 			m[n-1-l][n-1-i] = savedRight;//right->b
-			//runtime = O(N^2)
 		}
 	}
 	return true;
