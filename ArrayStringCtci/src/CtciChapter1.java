@@ -352,7 +352,7 @@ public static boolean rotateM(int[][] m){
 }
 
 public static void nullifyMatrix(int[][] m){
-			//{-- 01 02 03|04}
+			//{-- 01 02 03|04}  第一行：check col 哪个要nullify
 			//{10 11 -- 13 14}
 			//{20 21 22 23 --}
 			//{30 31 32 33 34}
@@ -381,7 +381,7 @@ public static void nullifyMatrix(int[][] m){
 			}
 		}
 
-		for(int i = m.length-1; i>0 ; i--){	//i=0不行，不知道为什么
+		for(int i = m.length-1; i>0 ; i--){	//i=0不行
 			if(m[i][0] == 0){
 				nullifyRow(m,i);
 			}
