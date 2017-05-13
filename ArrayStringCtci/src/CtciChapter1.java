@@ -351,21 +351,109 @@ public static boolean rotateM(int[][] m){
 	return true;
 }
 
+public static void nullifyMatrix(int[][] m){
+			//{-- 01 02 03|04}
+			//{10 11 -- 13 14}
+			//{20 21 22 23 --}
+			//{30 31 32 33 34}
+	for(int i = 1; i< m.length; i++){
+		for(int j = 1; j< m[0].length; j++){
+			if(m[i][j] == 0){
+				m[0][j] = 0;
+				m[i][0] = 0;
+				System.out.println(j);
+				System.out.println(i);
+			}
+		}
+		
+	}
+		boolean colHazZero = false;
+		boolean rowHazZero = false;
+		for(int i = 0; i< m.length; i++){
+				if(m[i][0] == 0){
+				colHazZero = true;
+				}
+			}
+		
+		for(int j = 0; j< m[0].length; j++){
+			if(m[0][j] == 0){
+			rowHazZero = true;
+			}
+		}
+
+		for(int i = m.length-1; i>0 ; i--){	//i=0不行，不知道为什么
+			if(m[i][0] == 0){
+				nullifyRow(m,i);
+			}
+		}
+		for(int i = m[0].length-1; i>0 ; i--){	
+			if(m[0][i] == 0){
+				nullifyCol(m,i);
+			}
+		}
+		
+		if(colHazZero == true){
+			nullifyCol(m,0);
+		}
+		
+		if(rowHazZero == true){
+			nullifyRow(m,0);
+		}
+}
+
+public static void nullifyRow(int[][] m, int row){
+	for(int i = 0; i< m[0].length; i++){
+		m[row][i] = 0;
+	}	//helper function的定义要定义对才能放心的用不check。
+}		//matrix i的那个index改变
+
+public static void nullifyCol(int[][] m, int col){
+	for(int i = 0; i< m.length; i++){
+		m[i][col] = 0;
+	}
+}
+
+public static void nullifyTwoArrayTrack(int[][] m){
+	int[] r = new int[m.length];	//rowTrackForZero
+	int[] col = new int[m[0].length] ;		//col
+	//定义新的[]别忘打new（java）
+	for(int i= 0;i<m.length;i++){
+		for(int j= 0;j<m[0].length;j++){
+			if(m[i][j] == 0){
+				r[i] = 1;
+				col[j] = 1;
+			}
+		}
+	}
+	
+	for(int i= 0;i<m.length;i++){
+		if(r[i] == 1){
+			nullifyRow(m,i);
+		}
+	}
+	for(int j= 0;j<m[0].length;j++){
+		if(col[j] == 1){
+			nullifyCol(m,j);
+		}
+	}
+
+}
+
 public static void main(String args[]){
-	int [][] m ={{0, 1, 2, 3, 4},
+	int [][] m ={{10, 1, 0, 3, 4},
 				{10,11,12,13,14},
 				{20,21,22,23,24},
 				{30,31,32,33,34},
 				{40,41,42,43,44}};
-	if(rotateM(m)){
+	nullifyTwoArrayTrack(m);
 		for(int i =0; i< m.length; i++){
-			for(int j =0; j< m.length; j++){
+			for(int j =0; j< m[0].length; j++){
 		System.out.print(m[i][j]);
 		System.out.print(" ");
 		}
 			System.out.println();
 		}
-	}
+	
 	/*
 	System.out.println(compressCheckonthefly("abbbbccc"));
 	

@@ -1,0 +1,466 @@
+import java.util.Arrays;
+
+public class CtciChapter1 {
+
+public static boolean isUnique(String a){//1.1
+	int len = a.length();
+	int[] map = new int[256];
+	if (len >=256){
+		return false;
+	}
+	for(int i=0; i<len;i++){
+		int index = a.charAt(i);// why is int (ASCII form??)
+		System.out.println(index);
+		if(map[index] == 1){
+			return false;}
+		else
+			map[index] = 1;
+	}
+	return true;
+}
+
+public static String sort(String string){//1.2
+	char[] ofCharVer = string.toCharArray();
+	java.util.Arrays.sort(ofCharVer);
+	System.out.println(new String (ofCharVer));
+	return new String (ofCharVer);//.toString();
+}
+
+public static boolean isPermu(String s1, String s2){
+	return s1.equals(s2);
+}
+
+public static boolean Permu(String s1, String s2){
+	int len1 = s1.length();
+	int len2 = s2.length();
+	if (len1!=len2) return false;
+	int[] map = new int[128];//ACII
+	char[] charVer = s1.toCharArray();
+	for(char index : charVer){
+		map[index]++;
+	}
+	/*for (int i =0; i <len1; i++){
+		int index1 = s1.charAt(i);
+		map[index1]++ ;
+	}*/
+	
+	for(int j = 0; j<len2; j++){
+		int index2 = s2.charAt(j);
+		map[index2]--;
+		if (map[index2] < 0)
+			return false;
+	}
+	return true;
+}
+
+public static void URLify(char[] str, int trueLen){
+	int spaceCount = 0;
+	for(int i = 0; i< trueLen; i++){
+		if (str[i]== ' '){
+			spaceCount++;
+		}
+	}
+	int urlLen = trueLen + spaceCount*2;
+	if(trueLen < str.length)
+		str[trueLen] = '\0';
+	for(int j = trueLen-1; j>=0; j--){//搞清楚原来和要覆盖
+		if (str[j] == ' '){
+			str[urlLen-1] = '0';
+			str[urlLen-2] = '2';
+			str[urlLen-3] = '%';
+			urlLen -= 3;
+		} else{
+			str[urlLen-1] = str[j];
+			urlLen--;
+		}
+	}
+}
+
+public static int[] buildFreqTable(String input){
+	char[] cVer = input.toCharArray();
+	int[] map = new int[charToInt('z')-charToInt('a')+1];
+	for(char c : cVer){
+		if (charToInt(c)!= -1)
+		map[charToInt(c)]++;
+	}
+	return map;
+}
+public static boolean hasAtMostOneOdd(String input){
+	int[] freq = buildFreqTable(input);
+	boolean hasOdd = false;
+	for (int i : freq){
+		if (i%2 ==1){
+			if(hasOdd == true)
+			return false;
+			else
+			hasOdd = true;	//
+		}
+	}
+	return true;
+}
+
+public static boolean isPermuOfPalindrome(String input){
+	
+	return hasAtMostOneOdd(input);
+}
+
+public static boolean isPermuOfPalindromeCheckOnFly(String input){
+	//no freq table, check the oddNum on the fly. by +1 -1 when encounting num of char, will 抵消成0偶数，1奇数for EACH char.
+	int[] map = new int[charToInt('z')-charToInt('a')+1];
+	char[] cVer = input.toCharArray();
+	int oddCount = 0;
+	for(char c:cVer){
+		if (charToInt(c) != -1){
+		map[charToInt(c)]++;
+		if ((map[charToInt(c)])%2 == 1)
+			oddCount ++;		//--
+		else
+			oddCount --;		//++ oddCount>=-1
+		}
+	}
+	return oddCount <=1;// 1时iff只有一个char是奇数；aa 是0；aaa=1；abba=0；abbba= 1 2 1 2 1 = 1;aaabbb=2
+}
+
+public static int charToInt(char c){
+	int m = Character.getNumericValue(c);
+	System.out.println(m);
+	int a = Character.getNumericValue('a');
+	System.out.println(a);
+	int z = Character.getNumericValue('z');
+	System.out.println(z);
+	if(m>=a && m<=z){	//equal sigh. || exclude && include
+		return m-a;
+	}
+	return -1;
+}
+
+public static boolean isPermuPalinBitVer(String input){
+	int bv = creatBitV(input);
+	return (bv == 0)||((bv&(bv-1))==0);
+}
+
+public static int creatBitV(String input){
+	int bV = 0;
+	char[] cVer = input.toCharArray();
+	for(char c: cVer){
+		int i = charToInt(c);
+		if(i != -1)
+		bV = addToBitV(bV,i);
+	}
+	//System.out.println(bV);
+	return bV;
+}
+
+public static int addToBitV(int bV,int i){
+	int adder = 1;		//adder is 1. 0 is always 0.
+	//from a to z 一定要有对应。没有都是0的情况。与array从0开始两码事。
+	System.out.println(adder);
+	adder = adder<<i;
+	System.out.println(i);
+	System.out.println(adder);
+	if((adder & bV) == 0)//never mapped, (adder & bV) use ();
+		bV |= adder;
+	else 
+		bV &= ~adder;
+	System.out.println(bV);
+	return bV;
+}
+
+public static boolean oneEditAway(String s1, String s2){
+	if (Math.abs(s1.length()-s2.length())>=2){
+		return false;
+	}
+	if (Math.abs(s1.length()-s2.length()) == 1){
+		return oneRorIAway(s1, s2);//abc, abcd; abc, adbc; abc, addd
+	}
+	if(s1.length() == s2.length()){	//abc, adc; abc, add
+		return oneReplaceAway(s1, s2);
+	}
+	return true;
+}
+
+public static boolean oneRorIAway(String s1, String s2){
+	//abc, abcd; abc, adbc; abc, addd
+	String shorter = s1.length() < s2.length() ? s1 : s2;
+	System.out.println(shorter);
+	String longer = s1.length() < s2.length() ? s2 : s1;
+	System.out.println(longer);
+	int flag = 0; //or bool, mark when the only one diff is allowed;
+	int idx1 = 0;
+	int idx2 = 0;
+	while(idx1<s1.length() && idx2 < s2.length() ){
+		if (shorter.charAt(idx1) != longer.charAt(idx2)) {
+			if (flag == 1){
+				return false;
+			}
+			flag = 1;
+			idx2++;
+		}else{		//不写else的话不论怎么样都会加！！
+		idx1++;
+		idx2++;
+		}
+	}
+	return true;
+
+}
+
+public static boolean oneReplaceAway(String s1, String s2){
+	int index1 = 0;//abc, abd; abb, add
+	int index2 = 0;
+	boolean flag = false;
+	while(index1< s1.length()){		//String and Array 按位置操作一定要限定位置的范围，不能超过。最最基本。
+		if(s1.charAt(index1) != s2.charAt(index2)){
+			if(flag == true){//if 条件判断对错，双等号最最基本。
+				return false;
+			}
+			flag = true;	//FLAG在一定条件下改变起它的作用！
+		}
+		index1++;//增长的条件写在那一块；
+		index2++;
+	}return true;
+}
+
+public static boolean oneEditAwayComb(String s1, String s2){
+	int flg = 0;
+	int index1 = 0;
+	int index2 = 0;
+	String shorter = s1.length() < s2.length() ? s1 : s2;
+	//if len is the same, go to the second condition;
+	String longer = s1.length() < s2.length() ? s2 : s1;
+	//System.out.println(longer);
+	if (longer.length() - shorter.length() >= 2)
+		return false;		//check the most basic case that doesnt fit at all
+	
+	while(index1<s1.length() && index2 < s2.length() ){
+		if(shorter.charAt(index1) != longer.charAt(index2) ){
+			if(flg == 1)		//int == 1 cannot cast to bool type:)
+				return false;
+			flg = 1;
+			if (shorter.length() == longer.length() ){
+				index1++;
+			}//for replace doesnt match; if not replace, ignore it
+		}
+		else//match
+			index1++;
+		index2++;	//whether match or not, it is true anyways:)
+		//combine 的方法特别好，compact, think more before you go。
+	}		
+	return true;
+}
+
+public static String compressedStringBaaadSuperSlow(String s1){
+	int c = 1;	//count for each chars
+	int i = 0;	//index for each char
+	String n = "" ;	//must initilize, or outputs nothing
+	while ( i< s1.length()){
+		//abbbbbc
+		if(((i+1) >= s1.length()) || (s1.charAt(i) != s1.charAt(i+1))  ){
+			//这里“(i+1) >= s1.length())”放在或的条件前面先判断，才不会outofbounds:)
+			n = n + "" + s1.charAt(i) + c;
+			c = 1;//C是char的，要清楚，到下一个不同的char的时候要归零！最基本的思想
+		}else{
+			c++;
+		}
+		i++;
+	}
+//	String n = "";
+//	int c = 0;
+//	for(int i = 0; i<s1.length();i++){
+//		c++;
+//		if(i+1>=s1.length() || s1.charAt(i)!= s1.charAt(i+1)){
+//			n += ""+ s1.charAt(i) + n;
+//			c = 0;
+//		}
+//	}
+	return s1.length() < n.length() ? s1 : n;
+}
+
+public static String compressCheckonthefly(String s){
+	int clen = clen(s);
+	System.out.println(clen);
+	if (s.length() <= clen ) return s;
+	StringBuilder n = new StringBuilder(clen);	//StringBuilder的type不是String:)
+	int i = 0;
+	int c = 1;		//用过后复位用下一个
+	while (i<s.length()){
+	if(i+1>=s.length() || s.charAt(i) != s.charAt(i+1)){
+		n.append(s.charAt(i));
+		n.append(c);
+		c = 1;
+	}else c++;
+	i++;
+}
+	return n.toString();
+}
+public static int clen(String s){
+	int i = 0;
+	int c = 1;
+	
+	while (i< s.length()){
+		if ( i+1>=s.length() || s.charAt(i) != s.charAt(i+1)){
+		c += 1 + String.valueOf(c).length();
+		//i<len的条件，又有i+1，check 先
+		c = 1;
+	} else c++;
+		i++;
+	}
+	
+	return c;// two ints, know what it is
+}
+
+public static String compressStr(String s){
+	StringBuilder n = new StringBuilder();
+	//System.out.println(n);
+	int c = 1 ; 
+	int i = 0;
+	while (i< s.length()){
+		//abbbbc
+		if (i+1 == s.length() || s.charAt(i)!= s.charAt(i+1)){
+			n.append(s.charAt(i));
+			n.append(c);
+		}else{
+			c++;
+		}
+		i++;
+	}
+	return s.length() < n.length() ? s : n.toString() ;
+}
+
+public static boolean rotateM(int[][] m){
+	if(m.length == 0 || m.length != m[0].length)
+		return false;
+	int n = m.length;
+	for(int l = 0; l< n/2 ; l++){		//l=layer,
+		 // l <= n/2	
+		//{00 01 02 03|04}
+		//{10 11 12 13 14}
+		//{20 21 22 23 24}
+		//{30 31 32 33 34}
+		//{40|41 42 43 44}
+		for(int i = l; i<n-1-l;i++){
+			int savedRight = m[i][n-1-l];	//save right
+			m[i][n-1-l] = m[l][i];//top->right
+			m[l][i] = m[n-1-i][l];//l->top 改變的i位置沒錯，但是順序如何想明白！
+			//不要一排一起想，要一排的某一個想；
+			m[n-1-i][l] = m[n-1-l][n-1-i];//b->l
+			//對應順序，可能從上一次就是反著的，就要翻著對應。
+			m[n-1-l][n-1-i] = savedRight;//right->b
+			//runtime = O(N^2)
+		}
+	}
+	return true;
+}
+
+public static void nullifyMatrix(int[][] m){
+			//{-- 01 02 03|04}
+			//{10 11 -- 13 14}
+			//{20 21 22 23 --}
+			//{30 31 32 33 34}
+	for(int i = 1; i< m.length; i++){
+		for(int j = 1; j< m[0].length; j++){
+			if(m[i][j] == 0){
+				m[0][j] = 0;
+				m[i][0] = 0;
+				System.out.println(j);
+				System.out.println(i);
+			}
+		}
+
+	}	
+		for(int i = m.length-1; i>0 ; i--){	//i=0不行，不知道为什么
+			if(m[i][0] == 0){
+				nullifyRow(m,i);
+			}
+		}
+		for(int i = m[0].length-1; i>0 ; i--){	
+			if(m[0][i] == 0){
+				nullifyCol(m,i);
+			}
+		}
+		
+		
+		
+		
+}
+
+public static void nullifyRow(int[][] m, int row){
+	for(int i = 0; i< m[0].length; i++){
+		m[row][i] = 0;
+	}
+}
+
+public static void nullifyCol(int[][] m, int col){
+	for(int i = 0; i< m.length; i++){
+		m[i][col] = 0;
+	}
+}
+
+public static void main(String args[]){
+	int [][] m ={{10, 1, 0, 3, 4},
+				{10,11,12,13,14},
+				{20,21,22,23,24},
+				{30,31,32,33,34},
+				{40,41,42,43,44}};
+	nullifyMatrix(m);
+		for(int i =0; i< m.length; i++){
+			for(int j =0; j< m[0].length; j++){
+		System.out.print(m[i][j]);
+		System.out.print(" ");
+		}
+			System.out.println();
+		}
+	
+	/*
+	System.out.println(compressCheckonthefly("abbbbccc"));
+	
+	/*
+	String str1 = "";
+	String str2 = " ";	//好例子也是关键：））
+	if(oneEditAwayComb(str1,str2)){
+		System.out.println("yay");
+	}else{
+		System.out.println("naaah");
+	}
+	
+	
+	/* 1.4 好题，三种方法。onthefly, bit manipulation.
+	if(isPermuPalinBitVer("aaaccc"))
+		System.out.println("yep");
+	else System.out.println("nop");
+	
+	
+	/*
+	char[] str = {'c','h','e',' ','s',' ',' '};	//1.3
+	URLify(str,5);
+	System.out.println(str);
+	/*
+	String s1 = "cba";
+	String s2 = "abc";
+	if(Permu(s1,s2)){
+		System.out.println("yep");
+	}else
+		System.out.println("nop");
+	
+	/*1.2	SORT THE CHAR
+	String s1 = "AC";
+	String s2 = "ac";
+	String s12 = sort(s1);
+	String s22 = sort(s2);
+	if(isPermu(s12,s22)){
+		System.out.println("yep");
+	}else
+		System.out.println("nop");
+	
+	
+	
+	
+	/*1.1
+ String string = "yelo";
+ if(isUnique(string)){
+	 System.out.println("yes");
+ }else
+	 System.out.println("no");
+	*/
+}
+
+}
