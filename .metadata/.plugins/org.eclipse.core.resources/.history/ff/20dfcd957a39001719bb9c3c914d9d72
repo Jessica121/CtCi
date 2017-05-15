@@ -1,0 +1,8 @@
+
+
+public class LinkedList {
+	public main void (String args[]){
+	LinkedListNode nd = new LinkedListNode(1);
+	System.out.println("");
+	nd.appendToTail(2);
+	}

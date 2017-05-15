@@ -1,0 +1,38 @@
+package chapter2LL;
+
+class linkedList {
+
+LinkedListNode head;//why this will solve pointer to head changes problem
+	
+	class LinkedListNode{		//static class?????
+	LinkedListNode next = null;
+	int data;
+	public LinkedListNode(int d){
+		this.data = d;
+	}
+	}
+	
+	void appendToTail(int d){
+		LinkedListNode end = new LinkedListNode(d);
+		LinkedListNode node = head;
+		while(node.next != null){
+			node = node.next;
+		}
+		node.next = end;
+	}
+	
+	LinkedListNode delNode(int d){		//del node with data d
+		LinkedListNode n = head;
+		if(n.data == d){
+			return head.next;
+		}//nil->1->2->3->nil
+		while(n.next != null){
+			if(n.next.data == d){
+				n.next = n.next.next;
+			}
+			n.next = n;
+		}
+		return head;
+	} 
+	
+}

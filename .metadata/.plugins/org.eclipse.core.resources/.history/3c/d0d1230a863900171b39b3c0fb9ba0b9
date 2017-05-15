@@ -1,0 +1,13 @@
+package chapter2LL;
+
+public class linkedListMain {
+	public static void main (String args[]){
+		LinkedListNode nd = new LinkedListNode(1);
+		nd.appendToTail(2);
+		
+		while(nd != null){
+		System.out.println(nd.data);
+		nd = nd.next;
+		}
+		}
+}
