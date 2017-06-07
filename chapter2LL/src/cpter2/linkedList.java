@@ -1,6 +1,7 @@
 package cpter2;
 
 import java.util.HashSet;
+import java.util.Stack;
 
 class linkedList {
 	Node head;//why this will solve pointer to head changes problem
@@ -11,6 +12,15 @@ class linkedList {
 		Node(int d){
 			this.data = d;
 		}
+		public void printList(){
+			Node n = this;
+			while(n != null){
+				System.out.println(n.data);//要操作的是n（print操作），∴判断是n；
+				n = n.next;		
+			}
+			
+		}
+		
 		public void appendToTail(int d){
 			//1->2->3->null;
 			Node end = new Node(d);
@@ -35,14 +45,7 @@ class linkedList {
 		
 		}
 		
-		public void printList(){
-			Node n = head;
-			while(n != null){
-				System.out.println(n.data);//要操作的是n（print操作），∴判断是n；
-				n = n.next;		
-			}
-			
-		}
+
 		
 		public Node delNode(int d){		//del node with data d
 			Node n = head;
@@ -338,28 +341,132 @@ class linkedList {
 			return ((l1==null) && (l2 == null)) ;
 		}
 		
+		public static boolean isPalioStack(Node l){
+			//1-2-3-2-1-n
+			//1-2-2-1-n
+			Node r = l;//runner
+			Node c = l;//check
+			Stack<Integer> s = new Stack<Integer>();
+			while(r.next!=null && r != null ){
+				s.push(c.data);
+				c = c.next;
+				r = r.next.next;
+			}
+			if(r != null){
+				c = c.next;
+			}
+			while(c != null){
+				int cmp = s.pop().intValue();
+				if(cmp != c.data){
+					return false;
+				}
+				c = c.next;
+			}
+			return true;
+		}
+		
+		static class Palio{
+			boolean same = true;//???
+			Node res = null;
+		}
+		
+		public static boolean palioRecursiveMain(Node l){
+			return palioRecursive(l, len(l)).same;
+		}
+		
+		public static Palio palioRecursive(Node l, int len){
+			Palio res = new Palio();
+			//1-2-3-2-1-n;
+			//1-2-2-1-n;
+			if(len == 0){
+				res.res = l;
+				return res;
+			}
+			if(len == 1){
+				res.res = l.next;
+				return res;
+			}
+			if(l.next != null){
+			Palio prev = palioRecursive(l.next, len-2);
+			if(prev.same == false || prev.res.data != l.data){
+				res.same = false;
+			}
+			res.res = prev.res.next;
+			}
+			return res;
+		}
+		
+		public static Node intersectNode(Node l1, Node l2){
+			if(l1 == null || l2 == null)
+				return null;
+			if(findTail(l1)!=findTail(l2))
+				return null;
+			Node shorter = len(l1)<len(l2) ? l1:l2;
+			Node longer = len(l1)>len(l2) ? l1:l2;
+			int diff = Math.abs(len(l1)-len(l2));
+			System.out.println("lenDiff"+diff);
+			Node ss = removeMore(longer, diff);//sameStart
+			while(ss != null && ss!=shorter){
+				ss = ss.next;
+				shorter = shorter.next;
+			}
+			System.out.println("addr"+ss);
+			if(ss == null || shorter == null) return null;
+			return ss;
+		}
+		public static Node findTail(Node l){
+			while(l.next != null)
+				{l = l.next;}//1-2-n
+			System.out.println("tail-"+l.data);
+			return l;
+		}
+		
+		public static Node removeMore(Node l, int d){
+			while(d>0){
+				l = l.next;
+				d--;
+			}
+			System.out.println("removeMore"+l.data);
+			return l;
+		}
+		
 		public static void main (String[] args){
 			linkedList ll = new linkedList();
-			Node head = new Node(3);
-//			head.appendToTail(2);
-//			head.appendToTail(3);
-//			head.appendToTail(4);
-//			head.appendToTail(3);
-//			head.appendToTail(2);
-//			head.appendToTail(1);
-			
-//			Node forth = new Node(4);
-//			third.next = forth;
-//			Node fifth = new Node(5);
-//			forth.next = fifth;
-			Node anotherHead = new Node(3);
-//			anotherHead.appendToTail(2);
-//			anotherHead.appendToTail(8);
-			Node newHead = addListsMain(head, anotherHead);
-			if(isSame(head, anotherHead)){//palioReverse(head) == true){
-				System.out.println("yay");
-			}else
-				System.out.println("nahh");
+			Node head = new Node(1);
+			Node secd = new Node(2);
+			head.next = secd;
+			Node forth = new Node(4);
+			secd.next = forth;
+			Node fifth = new Node(5);
+			forth.next = fifth;
+			//1-2-4-5
+
+			Node anotherHead = new Node(1);
+			anotherHead.appendToTail(2);
+			anotherHead.appendToTail(4);			
+			anotherHead.appendToTail(5);			
+//			anotherHead.appendToTail(44);			
+//			anotherHead.appendToTail(43);			
+//			anotherHead.appendToTail(42);			
+//			anotherHead.appendToTail(41);
+			System.out.println(anotherHead);
+			System.out.println(head);
+			System.out.println("len1-"+len(head));
+			System.out.println("len2-"+len(anotherHead));
+			anotherHead.printList();
+			head.printList();
+			//1-2-1-4
+
+			Node newHead = intersectNode(head, anotherHead);
+			if(newHead != null){
+			System.out.println("inersect"+newHead.data);}
+			else{
+				System.out.println("nahh intersect");
+			}
+//			if(palioRecursiveMain(head) == true){
+//				System.out.println("yay");
+//			}else
+//				System.out.println("nahh");
 //			System.out.println(padding(anotherHead, len(head)-len(anotherHead)).data);
 
 //			Node newHead = addLists(head, anotherHead, 0);
