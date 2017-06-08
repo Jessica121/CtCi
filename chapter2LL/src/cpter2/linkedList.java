@@ -430,6 +430,29 @@ class linkedList {
 			return l;
 		}
 		
+		public static Node loopEntryPt(Node head){
+			Node fast = head;
+			Node slow = head;
+			while(fast != null && fast.next != null){
+				fast = fast.next.next;
+				slow = slow.next;
+				if(fast == slow){
+					break;
+				}
+			}
+			if(fast == null || fast.next == null){
+				return null;
+			}
+			
+			slow = head;
+			while(slow != fast){
+				slow = slow.next;
+				fast = fast.next;
+			}
+			return slow;
+			
+		}
+		
 		public static void main (String[] args){
 			linkedList ll = new linkedList();
 			Node head = new Node(1);
@@ -439,6 +462,8 @@ class linkedList {
 			secd.next = forth;
 			Node fifth = new Node(5);
 			forth.next = fifth;
+			//fifth.next = secd;
+			
 			//1-2-4-5
 
 			Node anotherHead = new Node(1);
@@ -449,20 +474,22 @@ class linkedList {
 //			anotherHead.appendToTail(43);			
 //			anotherHead.appendToTail(42);			
 //			anotherHead.appendToTail(41);
-			System.out.println(anotherHead);
-			System.out.println(head);
-			System.out.println("len1-"+len(head));
-			System.out.println("len2-"+len(anotherHead));
-			anotherHead.printList();
-			head.printList();
+//			System.out.println(anotherHead);
+//			System.out.println(head);
+//			System.out.println("len1-"+len(head));
+//			System.out.println("len2-"+len(anotherHead));
+//			anotherHead.printList();
+			//head.printList();
 			//1-2-1-4
-
-			Node newHead = intersectNode(head, anotherHead);
-			if(newHead != null){
-			System.out.println("inersect"+newHead.data);}
-			else{
-				System.out.println("nahh intersect");
-			}
+			Node newHead = loopEntryPt(head);
+			System.out.println(newHead.data);
+//
+//			Node newHead = intersectNode(head, anotherHead);
+//			if(newHead != null){
+//			System.out.println("inersect"+newHead.data);}
+//			else{
+//				System.out.println("nahh intersect");
+//			}
 //			if(palioRecursiveMain(head) == true){
 //				System.out.println("yay");
 //			}else
