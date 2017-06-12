@@ -1,5 +1,5 @@
 package stackAndQueue;
-
+import java.util.Stack;
 import java.util.EmptyStackException;
 
 public class myStack<T>{		//head op 
@@ -17,7 +17,6 @@ public class myStack<T>{		//head op
 	public T peek(){
 		if(top == null)
 			throw new EmptyStackException();
-		
 		return top.data;
 	}
 	
@@ -38,7 +37,28 @@ public class myStack<T>{		//head op
 		top = push;
 	}
 	
-	public static boolean isEmpty(){
+	public boolean isEmpty(){
 		return top == null;
 	}
+	
+	public static void main(String args[]){
+		Stack<Integer> ans = new Stack<Integer>();
+		myStack<Integer> cek = new myStack<Integer>();
+		int[] arr = {1,2,3,4,5,6};
+		for (int a : arr){
+			ans.push(a);
+			cek.push(a);
+		}
+		while(!ans.isEmpty() && !cek.isEmpty()){
+			int a = ans.pop();
+			int c = cek.pop();
+			System.out.println(a+"=?"+c);
+			if (a != c){
+				System.out.println("not correct!");
+			}
+		}
+		System.out.println("Done!");
+	}
+	
+	
 }

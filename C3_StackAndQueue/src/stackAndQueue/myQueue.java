@@ -1,6 +1,7 @@
 package stackAndQueue;
-
+import java.util.Queue;
 import java.util.NoSuchElementException;
+import java.util.LinkedList;
 
 public class myQueue<T> {
 	private static class QueueNode<T>{
@@ -43,5 +44,28 @@ public class myQueue<T> {
 	public boolean isEmpty(){
 		return head == null;
 	}
+	
+	public static void main(String args[]){
+		Queue<Integer> ans = new LinkedList<Integer>();		//
+		myQueue<Integer> cek = new myQueue<Integer>();
+		int[] arr = {1,2,3,4,5,6};
+		for(int a: arr){
+			ans.add(a);
+			cek.add(a);
+		}
+		
+		while(!ans.isEmpty() && !cek.isEmpty()){
+			int a = ans.remove();
+			int c = cek.remove();
+			System.out.println(a+"=?"+c);
+			if(a != c){
+				System.out.println("err at implementation");
+			}
+		}
+		System.out.println("Done!");
+		
+	}
+	
+	
 	
 }
