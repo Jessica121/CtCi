@@ -3,9 +3,11 @@ import java.util.Stack;
 import java.util.EmptyStackException;
 
 public class myStack<T>{		//head op 
+	public int size = 0;
 	private static class StackNode<T>{
 		private T data;
 		private StackNode<T> next;
+
 		
 		public StackNode(T data){//constructor should be public
 			this.data = data;
@@ -25,6 +27,7 @@ public class myStack<T>{		//head op
 			throw new EmptyStackException();
 		T removedData = top.data;
 		top = top.next;
+		size--;
 		return removedData;
 		
 	}
@@ -35,10 +38,15 @@ public class myStack<T>{		//head op
 			push.next = top;
 		}
 		top = push;
+		size++;
 	}
 	
 	public boolean isEmpty(){
-		return top == null;
+		if(size == 0){
+			System.out.println("empty baby");
+		}
+		return size == 0;
+//		return top == null;
 	}
 	
 	public static void main(String args[]){
