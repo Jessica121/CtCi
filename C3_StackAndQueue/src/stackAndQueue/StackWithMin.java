@@ -69,7 +69,7 @@ public class StackWithMin extends myStack<Integer>{
 	public static void main(String[] args){
 	StackWithMin a = new StackWithMin();
 	a.push(2);
-	a.push(2);
+	a.push(2);    
 	a.push(1);
 	a.pop();
 	System.out.println(a.min());
