@@ -80,19 +80,39 @@ public class TreeNode {
 		}
 		
 		public int height(){
-			int lh = 0;
-			int rh = 0;//lh = leftHeight, rh = rightHeight
-			if(left == null && right == null){
-				return 1;
-			}else if(left != null){
-				lh = left.height() + 1;
-			}else if(right != null){
-				rh = right.height() + 1;
+			int lh = left == null ? 0 : left.height();
+			int rh = right == null ? 0 : right.height();
+			return Math.max(lh,rh) + 1;
+//			int lh = 1;			//everytime call the height(), gonna refresh lh back to 1 again
+//			int rh = 1;
+//	
+//			if(left != null){
+//				 lh = left.height()+1;
+//			}else if(right != null){
+//				 rh = right.height()+1;}
+//			return Math.max(lh,rh);		
+			
+		}
+
+		
+		private static TreeNode createMinHeightTree(int[] arr, int s, int e){
+			if(s > e){
+				return null;
+			}else{
+			int mid = (s+e)/2;
+			TreeNode midN = new TreeNode(arr[mid]);
+			midN.setLeft(createMinHeightTree(arr,s,mid-1));
+			midN.setRight(createMinHeightTree(arr,mid+1,e));
+			return midN;
 			}
-			return Math.max(lh,rh);
+		}
+		
+		public static TreeNode createMinHeightTree(int[] arr){
+			return createMinHeightTree(arr, 0, arr.length - 1);//搞不清輸入是什麼
 		}
 		
 		public static void main (String[] args){
+
 			TreeNode root = new TreeNode(4);
 			root.insertInOrder(2);
 			root.insertInOrder(6);
@@ -100,6 +120,7 @@ public class TreeNode {
 			root.insertInOrder(3);
 			root.insertInOrder(5);
 			root.insertInOrder(7);
+
 //			TreeNode root = new TreeNode(1);
 //			root.insertInOrder(2);
 //			root.insertInOrder(3);
@@ -109,13 +130,24 @@ public class TreeNode {
 //			root.insertInOrder(7);
 			System.out.println("size is -> "+root.size());
 			System.out.println("height is -> "+root.height());
-			if(root.isBST()){
-				System.out.println("Is a BST");
+//			if(root.isBST()){
+//				System.out.println("Is a BST");
+//			}else{
+//				System.out.println("Not a BST");
+//			}
+//			TreeNode f = root.search(5);
+//			System.out.println(f.data);
+			
+//			4.2 min height tree test
+			int[] arr = {1,2,3,4,5,6,7,8};
+			TreeNode rt = TreeNode.createMinHeightTree(arr);
+			System.out.println("min height tree root data -> "+rt.data);
+			System.out.println("4.2 height is -> "+rt.height());
+			if(rt.isBST()){
+				System.out.println("4.2 Is a BST");
 			}else{
-				System.out.println("Not a BST");
+				System.out.println("4.2 Not a BST");
 			}
-			TreeNode f = root.search(5);
-			System.out.println(f.data);
 		}
 		
 }
