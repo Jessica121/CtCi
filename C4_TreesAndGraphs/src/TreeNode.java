@@ -146,7 +146,7 @@ public class TreeNode {
 			int depth = 0;
 			for(LinkedList<TreeNode> l : lists){
 				Iterator<TreeNode> i = l.listIterator();
-				System.out.print("LinkedList at depth"+depth+": ");
+				System.out.print("LinkedList at depth "+depth+": ");
 				while(i.hasNext()){
 					System.out.print(i.next().data+" ");
 				}
@@ -157,7 +157,7 @@ public class TreeNode {
 		}
 		
 
-//		4.3 Fibo -> each level create a list if not exist, add the node
+//		4.3 Fibo -> each level create a list if not exist, add the node DFS
 		public static void createLLAtLevels(TreeNode n, ArrayList<LinkedList<TreeNode>> allL, int index){	//node's level = index
 			if(n == null) return;
 			LinkedList<TreeNode> l = null;
@@ -177,7 +177,47 @@ public class TreeNode {
 			createLLAtLevels(n,res,0);
 			return res;
 		}
+		
+//		4.3 BFS fibo(create linkedlists among each level of nodes)
+		public static ArrayList<LinkedList<TreeNode>> fiboBFS(TreeNode n){
+			ArrayList<LinkedList<TreeNode>> res = new ArrayList<LinkedList<TreeNode>>();
+			LinkedList<TreeNode> curL = new LinkedList<TreeNode>(); //current level
+			if( n != null){
+				curL.add(n);		//add the first node: the root
+			}
+			while(!curL.isEmpty()){
+				res.add(curL);			//
+				LinkedList<TreeNode> prevL = curL;			//應用上一層access下一層，傳遞，iterate
+				curL = new LinkedList<TreeNode>();			//clear
+				for(TreeNode p : prevL){		//
+					if(p.left != null){
+						curL.add(p.left);
+					}
+					if(p.right != null){
+						curL.add(p.right);
+					}
+				}
+			}
+			return res;
+		}
+		
+//		4.4 check bal
+		public static boolean checkBal(TreeNode n){
+			if(n == null){
+				return true;
+			}
+			int dif = getH(n.left) - getH(n.right);
+			if(Math.abs(dif) > 1){
+				return false;
+			}
+			return checkBal(n.left)&&checkBal(n.right);
+		}
 			
+		public static int getH(TreeNode n){
+			if (n==null) return 0;
+			return Math.max(getH(n.left),getH(n.right)) + 1 ;
+		}
+		
 		public static void main (String[] args){
 
 //			TreeNode root = new TreeNode(4);
@@ -188,8 +228,8 @@ public class TreeNode {
 //			root.insertInOrder(5);
 //			root.insertInOrder(7);
 
-//			TreeNode root = new TreeNode(1);
-//			root.insertInOrder(2);
+			TreeNode root = new TreeNode(1);
+			root.insertInOrder(2);
 //			root.insertInOrder(3);
 //			root.insertInOrder(4);
 //			root.insertInOrder(5);
@@ -216,15 +256,24 @@ public class TreeNode {
 //				System.out.println("4.2 Not a BST");
 //			}
 			
-			TreeNode root = insertFromArray(arr);
-			System.out.println("4.3 height is -> "+root.height());
-			if(root.isBST()){
-				System.out.println("4.3 Is a BST");
+//			TreeNode root = insertFromArray(arr);
+//			System.out.println("4.3 height is -> "+root.height());
+//			if(root.isBST()){
+//				System.out.println("4.3 Is a BST");
+//			}else{
+//				System.out.println("4.3 Not a BST");
+//			}
+//			
+//			printArrLists(createLLAtLevels(root));
+//			printArrLists(fiboBFS(root));
+			
+//			4.4
+			if(checkBal(root)){
+				System.out.println("4.4 is bal");
 			}else{
-				System.out.println("4.3 Not a BST");
+				System.out.println("4.4 Not bal");
 			}
 			
-			printArrLists(createLLAtLevels(root));
 		}
 		
 }
