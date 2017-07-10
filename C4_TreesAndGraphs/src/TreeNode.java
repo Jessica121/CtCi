@@ -1,3 +1,7 @@
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class TreeNode {
 		public int size = 0;
@@ -111,15 +115,78 @@ public class TreeNode {
 			return createMinHeightTree(arr, 0, arr.length - 1);//搞不清輸入是什麼
 		}
 		
+		public static TreeNode insertFromArray(int[] arr){
+			int c = 0;
+			TreeNode root = new TreeNode(arr[0]);
+			Queue<TreeNode> q = new LinkedList<TreeNode>();
+			q.add(root);
+			c++;
+			boolean done = false;
+			while(!done){
+				TreeNode n = q.element();
+				if(n.left == null){
+					n.left = new TreeNode(arr[c]);
+					q.add(n.left);
+					c++;
+				}else if(n.right == null){
+					n.right = new TreeNode(arr[c]);
+					q.add(n.right);
+					c++;
+				}else{
+					q.remove();
+				}
+				if(c == arr.length){
+					done = true;					//may out of bounds by 2	
+				}
+			}
+			return root;
+		}
+		
+		public static void printArrLists(ArrayList<LinkedList<TreeNode>> lists){
+			int depth = 0;
+			for(LinkedList<TreeNode> l : lists){
+				Iterator<TreeNode> i = l.listIterator();
+				System.out.print("LinkedList at depth"+depth+": ");
+				while(i.hasNext()){
+					System.out.print(i.next().data+" ");
+				}
+				System.out.println();
+				depth++;
+			}
+				
+		}
+		
+
+//		4.3 Fibo -> each level create a list if not exist, add the node
+		public static void createLLAtLevels(TreeNode n, ArrayList<LinkedList<TreeNode>> allL, int index){	//node's level = index
+			if(n == null) return;
+			LinkedList<TreeNode> l = null;
+			if(allL.size() == index){	//array 's corresponding size and index is diff by 1;
+				l = new LinkedList<TreeNode>();
+				allL.add(l);
+			}else{
+				l = allL.get(index);
+			}
+			l.add(n);
+			createLLAtLevels(n.left,allL,index+1);
+			createLLAtLevels(n.right,allL,index+1);
+		}
+		
+		public static ArrayList<LinkedList<TreeNode>> createLLAtLevels(TreeNode n){
+			ArrayList<LinkedList<TreeNode>> res = new ArrayList<LinkedList<TreeNode>>();
+			createLLAtLevels(n,res,0);
+			return res;
+		}
+			
 		public static void main (String[] args){
 
-			TreeNode root = new TreeNode(4);
-			root.insertInOrder(2);
-			root.insertInOrder(6);
-			root.insertInOrder(1);
-			root.insertInOrder(3);
-			root.insertInOrder(5);
-			root.insertInOrder(7);
+//			TreeNode root = new TreeNode(4);
+//			root.insertInOrder(2);
+//			root.insertInOrder(6);
+//			root.insertInOrder(1);
+//			root.insertInOrder(3);
+//			root.insertInOrder(5);
+//			root.insertInOrder(7);
 
 //			TreeNode root = new TreeNode(1);
 //			root.insertInOrder(2);
@@ -128,8 +195,8 @@ public class TreeNode {
 //			root.insertInOrder(5);
 //			root.insertInOrder(6);
 //			root.insertInOrder(7);
-			System.out.println("size is -> "+root.size());
-			System.out.println("height is -> "+root.height());
+//			System.out.println("size is -> "+root.size());
+//			System.out.println("height is -> "+root.height());
 //			if(root.isBST()){
 //				System.out.println("Is a BST");
 //			}else{
@@ -140,14 +207,24 @@ public class TreeNode {
 			
 //			4.2 min height tree test
 			int[] arr = {1,2,3,4,5,6,7,8};
-			TreeNode rt = TreeNode.createMinHeightTree(arr);
-			System.out.println("min height tree root data -> "+rt.data);
-			System.out.println("4.2 height is -> "+rt.height());
-			if(rt.isBST()){
-				System.out.println("4.2 Is a BST");
+//			TreeNode rt = TreeNode.createMinHeightTree(arr);
+//			System.out.println("min height tree root data -> "+rt.data);
+//			System.out.println("4.2 height is -> "+rt.height());
+//			if(rt.isBST()){
+//				System.out.println("4.2 Is a BST");
+//			}else{
+//				System.out.println("4.2 Not a BST");
+//			}
+			
+			TreeNode root = insertFromArray(arr);
+			System.out.println("4.3 height is -> "+root.height());
+			if(root.isBST()){
+				System.out.println("4.3 Is a BST");
 			}else{
-				System.out.println("4.2 Not a BST");
+				System.out.println("4.3 Not a BST");
 			}
+			
+			printArrLists(createLLAtLevels(root));
 		}
 		
 }

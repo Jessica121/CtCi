@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class ProblemsPart1 {
 	
@@ -16,7 +17,7 @@ public class ProblemsPart1 {
 		}
 		
 	}
-	
+//	4.1
 	public static Graph createGinSize6(){
 		Graph g = new Graph(6);
 		Node[] nodes = new Node[6];
@@ -66,6 +67,9 @@ public class ProblemsPart1 {
 		return false;
 	}
 	
+	
+	
+		
 }
 		
 		
