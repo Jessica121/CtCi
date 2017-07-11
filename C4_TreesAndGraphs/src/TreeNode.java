@@ -84,7 +84,7 @@ public class TreeNode {
 		}
 		
 		public int height(){
-			int lh = left == null ? 0 : left.height();
+			int lh = left == null ? 0 : left.height();		//null can't have .left
 			int rh = right == null ? 0 : right.height();
 			return Math.max(lh,rh) + 1;
 //			int lh = 1;			//everytime call the height(), gonna refresh lh back to 1 again
@@ -203,10 +203,10 @@ public class TreeNode {
 		
 //		4.4 check bal
 		public static boolean checkBal(TreeNode n){
-			if(n == null){
+			if(n == null){			
 				return true;
 			}
-			int dif = getH(n.left) - getH(n.right);
+			int dif = getH(n.left) - getH(n.right);	//n.left might be null, where null ptr exception is
 			if(Math.abs(dif) > 1){
 				return false;
 			}
@@ -214,8 +214,29 @@ public class TreeNode {
 		}
 			
 		public static int getH(TreeNode n){
-			if (n==null) return 0;
+			if (n == null) return 0;
 			return Math.max(getH(n.left),getH(n.right)) + 1 ;
+		}
+		
+//		4.4 optimized: return error once found error
+		public static int getHei(TreeNode n){
+			if(n == null)
+				return 0;
+			int lh = getHei(n.left);		//null already returned
+			if(lh == Integer.MIN_VALUE) 
+				return Integer.MIN_VALUE;		//return immediatly
+			int rh = getHei(n.right);
+			if(rh == Integer.MIN_VALUE) 
+				return Integer.MIN_VALUE;
+			if(Math.abs(lh - rh) > 1 ){
+				return Integer.MIN_VALUE;
+			}else{
+				return Math.max(lh, rh) + 1;
+			}
+		}
+		
+		public static boolean checkBal2 (TreeNode n){
+			return getHei(n) != Integer.MIN_VALUE;
 		}
 		
 		public static void main (String[] args){
@@ -230,7 +251,7 @@ public class TreeNode {
 
 			TreeNode root = new TreeNode(1);
 			root.insertInOrder(2);
-//			root.insertInOrder(3);
+			root.insertInOrder(3);
 //			root.insertInOrder(4);
 //			root.insertInOrder(5);
 //			root.insertInOrder(6);
@@ -268,7 +289,7 @@ public class TreeNode {
 //			printArrLists(fiboBFS(root));
 			
 //			4.4
-			if(checkBal(root)){
+			if(checkBal2(root)){
 				System.out.println("4.4 is bal");
 			}else{
 				System.out.println("4.4 Not bal");
