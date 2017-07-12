@@ -266,7 +266,7 @@ public class TreeNode {
 			if (!isBST(n.left, true)) return false;
 			if (stored != null){
 				System.out.print(" "+stored+" ");
-				if(isLeft && stored > n.data) {return false;}
+				if(isLeft && stored > n.data) {return false;}//左的store也是左
 				else if(!isLeft && stored >= n.data){	//stored 應該 <= data，請不要想當然！
 					return false;
 				}
@@ -277,7 +277,23 @@ public class TreeNode {
 		}
 		
 		public static boolean isBST(TreeNode n){
-			return isBST(n,true);
+			return isBST(n,true);		//T OR F doesn't matter(?)
+		}
+		
+		public static boolean isBSTMM(TreeNode n, Integer min, Integer max){
+			if (n == null) return true;		//leaves no left and right, treat as true
+			if(!isBSTMM(n.left, min, n.data) || !isBSTMM(n.right, n.data, max)){
+				return false;
+			}
+			if(min != null && n.data <= min)
+				return false;
+			if(max != null && n.data > max)
+				return false;
+			return true;
+		}
+		
+		public static boolean isBSTMM(TreeNode n){
+			return isBSTMM(n, null, null);
 		}
 		
 		public static void main (String[] args){
@@ -296,7 +312,7 @@ public class TreeNode {
 			root.insertInOrder(4);
 			root.insertInOrder(5);
 			root.insertInOrder(6);
-			root.insertInOrder(7);
+			root.insertInOrder(6);
 //			System.out.println("size is -> "+root.size());
 //			System.out.println("height is -> "+root.height());
 //			if(root.isBST()){
@@ -336,7 +352,7 @@ public class TreeNode {
 //				System.out.println("4.4 Not bal");
 //			}
 //			4.5
-			if(isBST(root)){
+			if(isBSTMM(rooot)){
 				System.out.println("4.5 YES bst");
 			}else{
 				System.out.println("4.5 NOT bst");
