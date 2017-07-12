@@ -239,6 +239,47 @@ public class TreeNode {
 			return getHei(n) != Integer.MIN_VALUE;
 		}
 		
+//		4.5 checkBST cannot have duplicate values
+		public static int index = 0;
+		public static void copyToArr(TreeNode n, int[] arr){
+			if(n == null) return;
+			copyToArr(n.left, arr);
+			arr[index] = n.data;
+			index++;
+			copyToArr(n.right, arr);
+		}
+		
+		public static boolean inorder(TreeNode n){
+			int[] arr = new int[n.size()];
+			System.out.println("size"+ n.size() );
+			copyToArr(n, arr);
+			for(int i= 1; i < arr.length; i++){
+				if(arr[i] <= arr[i-1]){		 
+					return false;
+				}
+			}
+			return true;
+		}
+		public static Integer stored = null;
+		public static boolean isBST(TreeNode n, boolean isLeft){
+			if ( n == null) return true;
+			if (!isBST(n.left, true)) return false;
+			if (stored != null){
+				System.out.print(" "+stored+" ");
+				if(isLeft && stored > n.data) {return false;}
+				else if(!isLeft && stored >= n.data){	//stored 應該 <= data，請不要想當然！
+					return false;
+				}
+			}
+			stored = n.data;
+			if (!isBST(n.right, false)) return false;
+			return true;
+		}
+		
+		public static boolean isBST(TreeNode n){
+			return isBST(n,true);
+		}
+		
 		public static void main (String[] args){
 
 //			TreeNode root = new TreeNode(4);
@@ -252,10 +293,10 @@ public class TreeNode {
 			TreeNode root = new TreeNode(1);
 			root.insertInOrder(2);
 			root.insertInOrder(3);
-//			root.insertInOrder(4);
-//			root.insertInOrder(5);
-//			root.insertInOrder(6);
-//			root.insertInOrder(7);
+			root.insertInOrder(4);
+			root.insertInOrder(5);
+			root.insertInOrder(6);
+			root.insertInOrder(7);
 //			System.out.println("size is -> "+root.size());
 //			System.out.println("height is -> "+root.height());
 //			if(root.isBST()){
@@ -268,7 +309,7 @@ public class TreeNode {
 			
 //			4.2 min height tree test
 			int[] arr = {1,2,3,4,5,6,7,8};
-//			TreeNode rt = TreeNode.createMinHeightTree(arr);
+			TreeNode rt = TreeNode.createMinHeightTree(arr);
 //			System.out.println("min height tree root data -> "+rt.data);
 //			System.out.println("4.2 height is -> "+rt.height());
 //			if(rt.isBST()){
@@ -277,7 +318,7 @@ public class TreeNode {
 //				System.out.println("4.2 Not a BST");
 //			}
 			
-//			TreeNode root = insertFromArray(arr);
+			TreeNode rooot = insertFromArray(arr);
 //			System.out.println("4.3 height is -> "+root.height());
 //			if(root.isBST()){
 //				System.out.println("4.3 Is a BST");
@@ -289,11 +330,18 @@ public class TreeNode {
 //			printArrLists(fiboBFS(root));
 			
 //			4.4
-			if(checkBal2(root)){
-				System.out.println("4.4 is bal");
+//			if(checkBal2(root)){
+//				System.out.println("4.4 is bal");
+//			}else{
+//				System.out.println("4.4 Not bal");
+//			}
+//			4.5
+			if(isBST(root)){
+				System.out.println("4.5 YES bst");
 			}else{
-				System.out.println("4.4 Not bal");
+				System.out.println("4.5 NOT bst");
 			}
+			
 			
 		}
 		
