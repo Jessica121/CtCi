@@ -17,16 +17,21 @@ public class buildOrder {
 			return this.name;
 		}
 		public void addNei(Project n){
-			n.numDep++;
+			
 			if(!chker.containsKey(n.name())){
 			child.add(n);
+//*这里也出错
+			n.numDep++;
+			System.out.println(n.name+"'s numDep is "+n.numDep);
 			chker.put(n.name(),n);
+			}else{
+				System.out.println(this.name+" node had "+n.name+" node! ");
 			}
 		}
 		public ArrayList<Project> getChild(){
 			return child;
 		}
-//		
+		
 		public int depNum(){
 			return numDep;
 		}
@@ -36,14 +41,17 @@ public class buildOrder {
 	public static class Graph{
 		private ArrayList<Project> nodes = new ArrayList<Project>();
 		private HashMap<String, Project> ckr = new HashMap<String, Project>();
-
 		public Project addNode(String name){
-			Project n = new Project(name);
+//*这里出错
+//			Project n = new Project(name);
 			if(!ckr.containsKey(name)){
+				Project n = new Project(name);
 				nodes.add(n);
 				ckr.put(name , n);
 			}
-			return  n;
+//			*
+			return ckr.get(name);//*get 已有的dep不一定0，在原来的基础上更新
+//			return n;		//all new nodes with numDep == 0;
 		}
 		
 		public void addEdge(String a , String b){
@@ -51,6 +59,10 @@ public class buildOrder {
 		}
 		
 		public ArrayList<Project> getNodes(){
+			for(Project p:nodes){
+				System.out.print(p.name()+" "+p.numDep+" ");
+			}
+			System.out.println();
 			return nodes;
 		}
 	}
@@ -69,15 +81,16 @@ public class buildOrder {
 		return g;
 	}
 	
-	public static Project[] buildOrder(ArrayList<Project> ns){
+	public static Project[] buildNodeOrder(ArrayList<Project> ns){
 		Project[] res = new Project[ns.size()];
 		int processI = 0;
 		int index = 0;
 		index = addToArr(ns,res,index);
-		if(res[processI] == null){
-			return null;
-		} 
+ 
 		while(processI < res.length){
+			if(res[processI] == null){
+				return null;
+			}
 		for(Project c : res[processI].getChild()){
 			c.numDep--;
 		}
@@ -91,7 +104,7 @@ public class buildOrder {
 		for(Project p: l){
 			if(p.numDep == 0){
 				addTo[addAti] = p;
-				addAti ++ ;
+				addAti++ ;
 			}
 		}
 		return addAti;
@@ -99,7 +112,7 @@ public class buildOrder {
 	
 	public static Project[] buildOrder(String[] i, String[][] d){
 		Graph g = buildG(i,d);
-		Project[] res = buildOrder(g.getNodes());
+		Project[] res = buildNodeOrder(g.getNodes());
 		return res;
 	}
 	
@@ -108,20 +121,27 @@ public class buildOrder {
 		int i = 0;
 		for (Project p:inp){
 			s[i] = p.name();
-			System.out.print(s[i]);
+			System.out.print(s[i]+" ");
 			i++;
 		}
 
 	}
 	
 	public static void main (String[] args){
-		String[] projects = {"a", "b", "c", "d", "e", "f"};
+		String[] projects = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"};
 		String[][] dependencies = {
-				{"a", "d"},
-				{"f", "b"},
+				{"a", "b"},
+				{"b", "c"},
+				{"a", "c"},
+				{"a", "c"},
+				{"d", "e"},
 				{"b", "d"},
-				{"f", "a"},
-				{"d", "c"}};
+				{"e", "f"},
+				{"a", "f"},
+				{"h", "i"},
+				{"h", "j"},
+				{"i", "j"},
+				{"g", "j"}};
 		if(buildOrder(projects,dependencies) != null){
 		convertTS(buildOrder(projects,dependencies));
 		}else{
