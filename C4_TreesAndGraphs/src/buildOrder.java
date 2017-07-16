@@ -103,4 +103,29 @@ public class buildOrder {
 		return res;
 	}
 	
+	public static void convertTS(Project[] inp){
+		String[] s = new String[inp.length];
+		int i = 0;
+		for (Project p:inp){
+			s[i] = p.name();
+			System.out.print(s[i]);
+			i++;
+		}
+
+	}
+	
+	public static void main (String[] args){
+		String[] projects = {"a", "b", "c", "d", "e", "f"};
+		String[][] dependencies = {
+				{"a", "d"},
+				{"f", "b"},
+				{"b", "d"},
+				{"f", "a"},
+				{"d", "c"}};
+		if(buildOrder(projects,dependencies) != null){
+		convertTS(buildOrder(projects,dependencies));
+		}else{
+			System.out.print("circular");
+		}
+	}
 }
