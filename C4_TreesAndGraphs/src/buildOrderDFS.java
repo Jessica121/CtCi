@@ -73,6 +73,7 @@ public class buildOrderDFS {
 	}
 	
 	public static Stack<Project> buildOrder(ArrayList<Project> n){
+		
 		Stack<Project> s = new Stack<Project>();
 		for(Project p: n){
 			if(p.s == State.UNVISITED){
