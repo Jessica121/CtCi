@@ -13,8 +13,13 @@ public class ProblemsPart1 {
 		if(hasPath(g, allV[0], allV[4])){
 			System.out.print("Yes");
 		}else{
-			System.out.print("No");
+			System.out.print("No"); 
 		}
+//		int[] arr = {};
+//		for (int a : arr){
+//			System.out.print("?");	//NOT EXECUTED, BUT WOULD NOT RETURN AN ERROR
+//		}
+//		System.out.print("D");
 		
 	}
 //	4.1
