@@ -77,14 +77,47 @@ public class findCommonAncestor {
 		return p;
 	}
 	
+//	---------------------------------------sol3----------------------------------------------------
+//	starting from the root, the anecster wont go below one of the node a or b
+//	so once a and b are on dif side , return it
+//	corner case: 1. a covers b or otherwise
+//				2. a covers b but a only has b as a child, when recursive to that null child, 
+	public TreeNode findCA3(TreeNode root, TreeNode a, TreeNode b){
+		if(!cover(root,a)||!cover(root,b)){
+			return null;
+		}
+//		runs the helper after making sure two nodes are on this tree in question.
+//		avoid recheck if a b are in same subtree..
+		return ancesterHelper(root,a,b);
+	}
+	public TreeNode ancesterHelper(TreeNode root, TreeNode a , TreeNode b){
+//		root == null???
+		if(root == a || root == b) //only check for immediate children
+			return root;
+		
+//		code below only can check nodes BELOW the root. 
+//		hence code ABOVE should eliminate the case for root itself first.
+		boolean aOnL = cover(root.left,a);
+		boolean bOnL = cover(root.left,b);
+		if((aOnL && !bOnL) || (!aOnL && bOnL)){
+			return root;
+		}
+//		the only condition left is a b both on left or right
+		TreeNode goTo = aOnL? root.left: root.right;
+		
+		return ancesterHelper(goTo, a, b);
+	}
+	
+	
 	public static void main(String[] args) {
 		int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		TreeNode root = TreeNode.createMinHeightTree(array);
-		TreeNode n3 = root.search(9);
+		TreeNode n3 = root.search(1);
 		TreeNode n7 = root.search(7);
 		TreeNode ancestor1 = findCA1(n3, n7);
 		TreeNode ancestor2 = findCA2(root,n3, n7);
-		System.out.println("Check me! "+ancestor1.data+" "+ancestor2.data);
+		TreeNode ancestor3 = findCA2(root,n3, n7);
+		System.out.println("Check me! "+ancestor1.data+" "+ancestor2.data+" "+ancestor3.data);
 	}
 
 }
