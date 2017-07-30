@@ -6,12 +6,14 @@ public class findCommonAncestor {
 		int ha = getDpth(a);
 		int hb = getDpth(b);
 		int diff = Math.abs(ha - hb);
-		System.out.println("diff "+diff);
-		TreeNode longer = (ha > hb)? a:b;
+		System.out.println("height diff is-> "+diff);
+//		*錯誤：ha = hb 情況沒有handle，所以都給了b………………………………………………
+		TreeNode longer = (ha >= hb)? a:b;
 		TreeNode shorter = (ha < hb)? a:b;
+		System.out.println("longer shorter"+longer.data +" "+ shorter.data);
 //		*這裡出錯。。。
 		longer = goUpBy(longer , diff);
-		System.out.println("after goupby "+longer.data);
+		System.out.println("longer shorter"+longer.data +" "+ shorter.data);
 		while(longer != shorter && longer != null && shorter != null){
 			longer = longer.parent;
 			shorter = shorter.parent;
@@ -33,7 +35,7 @@ public class findCommonAncestor {
 			n = n.parent;
 			h--;
 		}
-		System.out.println("n in go upby "+n.data);
+		System.out.println("n go up to the node "+n.data);
 		return n;
 	}
 	
@@ -81,8 +83,9 @@ public class findCommonAncestor {
 //	starting from the root, the anecster wont go below one of the node a or b
 //	so once a and b are on dif side , return it
 //	corner case: 1. a covers b or otherwise
-//				2. a covers b but a only has b as a child, when recursive to that null child, 
-	public TreeNode findCA3(TreeNode root, TreeNode a, TreeNode b){
+//				2. a covers b but a only has b as a child, when recursive to that null child
+//				3. either a or b not in the tree
+	public static TreeNode findCA3(TreeNode root, TreeNode a, TreeNode b){
 		if(!cover(root,a)||!cover(root,b)){
 			return null;
 		}
@@ -90,9 +93,9 @@ public class findCommonAncestor {
 //		avoid recheck if a b are in same subtree..
 		return ancesterHelper(root,a,b);
 	}
-	public TreeNode ancesterHelper(TreeNode root, TreeNode a , TreeNode b){
-//		root == null???
-		if(root == a || root == b) //only check for immediate children
+	public static TreeNode ancesterHelper(TreeNode root, TreeNode a , TreeNode b){
+//		null means recursive to the leaves (??)
+		if(root == null || root == a || root == b) //only check for immediate children
 			return root;
 		
 //		code below only can check nodes BELOW the root. 
@@ -108,16 +111,81 @@ public class findCommonAncestor {
 		return ancesterHelper(goTo, a, b);
 	}
 	
+//	---------------------------------------Sol4--------------------------------
+//	check the tree once from the root to find the pos of p and q.
+//	return p or q if find it under the branch including self(?)
+//	2 conditions: res left and right are p and q;	res itself a p contains q in its either branch
+//	for the both conditions mark it as Ans, else mark it false cuz on latter one, the branch may not contain the other
+//	other cases be like, when tree is null, when p and q are the same node
+	//	*	Common problem:
+//	to find if a node is in the tree, using recursive, and to check is recursive to itself, aka node == p or q
+	public static class Result{
+//		public public public
+		public TreeNode n;
+		public boolean isAnc;
+		public Result(TreeNode n, boolean isAnc){
+			this.n = n;
+			this.isAnc = isAnc;
+		}
+	}
+
+	public static TreeNode findCA4(TreeNode r, TreeNode p , TreeNode q){
+		Result res = findCA4Helper(r,p ,q);
+		System.out.println("isAnc? "+res.isAnc);
+		System.out.println("res's data? "+res.n.data);
+		if (res.isAnc) {
+			return res.n;
+		}
+		return null;
+	}
+
+	public static Result findCA4Helper(TreeNode r, TreeNode p , TreeNode q){
+//		in the recursive bulk, every single condition should be considered and written in here using if...
+		if(r == null) return new Result(null , false);	//returned stuff 
+		if( r == p && r == q)	return new Result(r , true);
+		Result rx = findCA4Helper(r.left, p , q);
+//		System.out.println("rx is ->?" + rx.isAnc);
+		if(rx.isAnc)		return rx;
+		Result ry = findCA4Helper(r.right,p , q);
+//		System.out.println("ry is ->?" + ry.isAnc);
+		if(ry.isAnc)		return ry;
+//		WOW WRAPPER CLASS COMPARE ITS PROPERTY NOT THE WHOLE THING ITSELF
+//		rx「「「.n」」」
+//		這裡出大錯：兩個都寫成rx……太不小心了
+		if(rx.n != null && ry.n != null)		{
+			return new Result(r , true);	//root is AC but not p q itself
+//		root is one of the p, q and the other is underneath
+		}else if(r == p || r == q){
+			boolean isA = rx.n != null || ry.n != null;
+			return new Result(r, isA);
+//		root is one of p, q , the other is not underneath
+		}else{
+//			if rx == null && ry == null, -> null;
+//			if rx != null , -> rx;
+//			else -> ry
+			return new Result( rx.n != null? rx.n : ry.n, false);
+		}
+		}
 	
+
+//	TESTING CASESES
 	public static void main(String[] args) {
 		int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		TreeNode root = TreeNode.createMinHeightTree(array);
-		TreeNode n3 = root.search(1);
-		TreeNode n7 = root.search(7);
-		TreeNode ancestor1 = findCA1(n3, n7);
-		TreeNode ancestor2 = findCA2(root,n3, n7);
-		TreeNode ancestor3 = findCA2(root,n3, n7);
-		System.out.println("Check me! "+ancestor1.data+" "+ancestor2.data+" "+ancestor3.data);
+		System.out.println("root-> "+root.data);
+		TreeNode n3 = root.search(6);
+		TreeNode n4 = root.search(9);
+		TreeNode ancestor1 = findCA1(n3, n4);
+		TreeNode ancestor2 = findCA2(root,n3, n4);
+		TreeNode ancestor3 = findCA3(root,n3, n4);
+		TreeNode ancestor4 = findCA4(root,n3, n4);
+//		if (ancestor3 != null) {
+//			System.out.println(ancestor3.data);
+//		} else {
+//			System.out.println("null");
+//		}
+		System.out.println("Check me! "+ancestor1.data+" "+ancestor2.data+" "+ancestor3.data+" "+ancestor4.data);
+//		System.out.println("Check me! "+ancestor3.data);
 	}
-
-}
+	}
+	
