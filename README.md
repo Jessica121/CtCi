@@ -16,7 +16,8 @@
 3. Stack and Queue
 
 4. Tree and Graph 
-	~Null node， input check
+	~Null node， input check，下面要用到左右parent的check自己null；recursive 保护
+				insert in tree: left可能有值用recursive去insert，除非没有（left == null）才可以覆盖！（left = new ...)
 	~Recursive: bulk 中 寫下所有可能出現的情況。
 				自己是要check的node
 				自己是leaf
