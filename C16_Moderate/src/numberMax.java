@@ -3,7 +3,7 @@ public class numberMax {
 // find the max of two numb without using the if-else and comparison op 
 	// Integer_MAX : 31 个 1， -1 32 个 1: 负数的第一位是1
 	public static void main(String[] args) {
-		System.out.println(getMax(-2147483647,1));
+		System.out.println(getMax(2147483647,-15));
 	}
 	
 	private static int getMax(int a, int b) {
