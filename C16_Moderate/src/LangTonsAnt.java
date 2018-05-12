@@ -119,6 +119,24 @@ public class LangTonsAnt {
 			this.x = x;
 			this.y = y;
 		}
+		
+		public void print() {
+			System.out.println("( " + x + ", " + y + " )");
+		}
+		
+		// Provide the hashcode func and equals when need it to be in the set.
+		@Override
+		public int hashCode() {
+			return (x * 31) ^ y;
+		}
+		
+		@Override 
+		public boolean equals(Object o) {
+			if(o instanceof Position) {
+				return ((Position) o).x == this.x && (((Position) o).y == this.y);
+			}
+			return false;
+		}
 	}
 	
 	public static void main(String[] args) {
