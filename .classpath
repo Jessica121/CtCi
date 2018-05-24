@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="C1_ArrayString/src"/>
+	<classpathentry kind="src" path="C15_ThreadsAndLocks/src"/>
+	<classpathentry kind="src" path="C16_Moderate/src"/>
+	<classpathentry kind="src" path="C2_LinkedList/src"/>
+	<classpathentry kind="src" path="C3_StackAndQueue/src"/>
+	<classpathentry kind="src" path="C4_TreesAndGraphs/src"/>
+	<classpathentry kind="src" path="C7_OOD/src"/>
+	<classpathentry kind="src" path="C8_RecursionAndDP/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="C15_ThreadsAndLocks/bin"/>
+</classpath>
