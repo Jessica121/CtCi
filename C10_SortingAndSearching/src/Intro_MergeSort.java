@@ -10,7 +10,7 @@ public class Intro_MergeSort {
 	// low, mid + 1
 	
 	public static void mergeSort(int[] arr) {
-		int[] helperArray = new int[arr.length]; // auxiliary array space O(n)
+		int[] helperArray = new int[arr.length]; // auxiliary array space O(n); time O(N + NlogN)
 		merge(arr, helperArray, 0, arr.length - 1);
 		System.out.println(Arrays.toString(arr));
 	}
