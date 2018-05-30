@@ -1,7 +1,6 @@
 # CtCi practice
 
 ·錯誤：
-- ‘static’
 - class 中 property 用 public or private
 - if else沒有把所有情況考慮完全，比如 h1 = h2 這種
 - recursive 左和右都寫成左……………… （4.8）
