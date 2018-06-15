@@ -1,16 +1,10 @@
-# CtCi practice
-
-·錯誤：
-- class 中 property 用 public or private
-- if else沒有把所有情況考慮完全，比如 h1 = h2 這種
-- recursive 左和右都寫成左……………… （4.8）
-- Wrapper class中 要比較這整個class還是那裡面的node or value
+# Algorithms
 
 ·方法分類：
 
 1. String and Array
 
-2. LinkedList
+2. LinkedList: Cycle check, null pointer check before accessing its properties like next.
 
 3. Stack and Queue
 
@@ -22,4 +16,15 @@
 				自己是leaf
 				自己是要求的
 				比較root 和 recursive的結果children，在同一bulk中出現
+
+5. Graph: Cycle, visited
+   Matrix: a graph, search path, especially to neighbers or defined directions, mark visited to prevent check back. (stack overflow)
+
+
+
+·錯誤：
+- if else沒有把所有情況考慮完全，比如 h1 = h2 這種
+- recursive 左和右都寫成左……………… （4.8）
+- Wrapper class中 要比較這整個class還是那裡面的node or value
+
 
